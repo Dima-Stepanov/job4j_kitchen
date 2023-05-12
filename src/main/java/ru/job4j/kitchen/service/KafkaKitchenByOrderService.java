@@ -20,7 +20,7 @@ import ru.job4j.kitchen.domain.dto.OrderDTO;
 @AllArgsConstructor
 @Slf4j
 public class KafkaKitchenByOrderService implements KafkaService<String, OrderDTO, OrderDTO> {
-    private static final String TOPIC_ORDERS = "job4j_orders";
+    private static final String TOPIC_ORDERS = "job4j_preorder";
 
     @Override
     public void sendMessage(String topic, String key, OrderDTO type) {
