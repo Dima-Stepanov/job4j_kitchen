@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
  * 3.5. Микросервисы
  * Job4j Hungry Wolf
  * Job4j KITCHEN
+ * 5. Повествование основанное на хореографии [#458498]
+ * OrderDTO DTO модель описывает заказ
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 04.05.2023

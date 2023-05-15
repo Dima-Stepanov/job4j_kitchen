@@ -12,6 +12,8 @@ import javax.persistence.*;
  * 3.5. Микросервисы
  * Job4j Hungry Wolf
  * Job4j KITCHEN
+ * 5. Повествование основанное на хореографии [#458498]
+ * Preorder модель данных, описывает заказ для кухни на приготовления блюда
  *
  * @author Dmitry Stepanov, user Dmitry
  * @since 12.05.2023
