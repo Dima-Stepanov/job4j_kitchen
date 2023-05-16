@@ -7,4 +7,7 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <include file="001_ddl_create_statuses_table.sql" relativeToChangelogFile="true"/>
     <include file="002_dml_insert_status_table.sql" relativeToChangelogFile="true"/>
+    <include file="003_ddl_create_preorders_table.sql" relativeToChangelogFile="true"/>
+    <include file="004_ddl_create_warehouses_table.sql" relativeToChangelogFile="true"/>
+    <include file="005_dml_insert_warehouses_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

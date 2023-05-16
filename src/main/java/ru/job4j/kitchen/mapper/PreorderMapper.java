@@ -1,5 +1,6 @@
 package ru.job4j.kitchen.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.job4j.kitchen.domain.Preorder;
 import ru.job4j.kitchen.domain.Status;
 import ru.job4j.kitchen.domain.dto.OrderDTO;
@@ -15,6 +16,7 @@ import ru.job4j.kitchen.domain.dto.OrderDTO;
  * @author Dmitry Stepanov, user Dima_Nout
  * @since 14.05.2023
  */
+@Component
 public class PreorderMapper {
 
     /**

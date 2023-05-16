@@ -6,8 +6,10 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import ru.job4j.kitchen.domain.Status;
 import ru.job4j.kitchen.domain.dto.OrderDTO;
 import ru.job4j.kitchen.mapper.PreorderMapper;
+import ru.job4j.kitchen.repository.OrderRepository;
 
 /**
  * 3. Мидл
@@ -26,9 +28,14 @@ import ru.job4j.kitchen.mapper.PreorderMapper;
 public class KafkaKitchenByOrderService implements KafkaService<String, OrderDTO, OrderDTO> {
     private final KafkaTemplate<String, Object> kafkaTemplate;
     private final SimplePreorderService preorderService;
+    private final OrderRepository orderRepository;
     private final PreorderMapper preorderMapper;
+    private final CookedService cookedService;
+
+    private final Status cancelled = new Status(2, "Отменен");
+    private final Status ready = new Status(3, "Готов к выдаче");
+
     private static final String TOPIC_PREORDERS = "job4j_preorder";
-    private static final String TOPIC_COOKED = "job4j_cooked_order";
 
     @Override
     public void sendMessage(String topic, String key, OrderDTO type) {
@@ -44,8 +51,23 @@ public class KafkaKitchenByOrderService implements KafkaService<String, OrderDTO
         log.debug("Partition: {}", record.partition());
         log.debug("Key: {}", record.key());
         log.debug("Value: {}", record.value());
-        var preorder = preorderMapper.getPreorderByOrderDTO(record.value());
+        var orderDTO = record.value();
+
+        sendKitchen(orderDTO);
+
+        return orderDTO;
+    }
+
+    private void sendKitchen(OrderDTO orderDTO) {
+        var preorder = preorderMapper.getPreorderByOrderDTO(orderDTO);
+        var cooked = cookedService.dishCooked(preorder.getDishId());
+        if (cooked) {
+            preorder.setStatus(ready);
+        }
+        if (!cooked) {
+            preorder.setStatus(cancelled);
+        }
         preorderService.save(preorder);
-        return record.value();
+        orderRepository.updateStatusByOrderId(preorder.getOrderId(), preorder.getStatus().getId());
     }
 }
